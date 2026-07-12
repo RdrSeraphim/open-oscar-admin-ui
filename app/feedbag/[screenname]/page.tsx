@@ -8,6 +8,7 @@ import { getFeedbag } from "@/app/lib/api-client";
 import { useApiResource } from "@/app/lib/use-api-resource";
 import { AddGroupDialog } from "./_components/AddGroupDialog";
 import { GroupCard } from "./_components/GroupCard";
+import { LinkedAccountsSection } from "./_components/LinkedAccountsSection";
 
 export default function FeedbagPage({
   params,
@@ -63,6 +64,8 @@ export default function FeedbagPage({
             </div>
           )}
         </div>
+
+        <LinkedAccountsSection screenName={screenname} />
       </div>
 
       <AddGroupDialog
