@@ -1,8 +1,19 @@
-import type { Account, SessionsResponse, User, VersionInfo } from "./types";
+import type {
+  Account,
+  BuddyGroup,
+  LinkedAccountsResponse,
+  SessionsResponse,
+  User,
+  VersionInfo,
+} from "./types";
 
 class ApiError extends Error {}
 
-async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+async function apiFetch<T>(
+  path: string,
+  init?: RequestInit,
+  opts?: { notFoundValue?: T },
+): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
     headers: {
@@ -10,6 +21,10 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
       ...init?.headers,
     },
   });
+
+  if (res.status === 404 && opts && "notFoundValue" in opts) {
+    return opts.notFoundValue as T;
+  }
 
   if (!res.ok) {
     let message = `Request failed with status ${res.status}`;
@@ -87,4 +102,70 @@ export function killSession(screenName: string): Promise<void> {
 
 export function getVersion(): Promise<VersionInfo> {
   return apiFetch<VersionInfo>("/version");
+}
+
+export function getFeedbag(screenName: string): Promise<BuddyGroup[]> {
+  return apiFetch<BuddyGroup[]>(
+    `/feedbag/${encodeURIComponent(screenName)}/group`,
+    undefined,
+    { notFoundValue: [] },
+  );
+}
+
+export function addGroup(
+  screenName: string,
+  groupName: string,
+): Promise<{ group_id: number; group_name: string }> {
+  return apiFetch(
+    `/feedbag/${encodeURIComponent(screenName)}/group/${encodeURIComponent(groupName)}`,
+    { method: "PUT" },
+  );
+}
+
+export function addBuddy(
+  screenName: string,
+  groupId: number,
+  buddyScreenName: string,
+): Promise<{ name: string; group_id: number; item_id: number }> {
+  return apiFetch(
+    `/feedbag/${encodeURIComponent(screenName)}/group/${groupId}/buddy/${encodeURIComponent(buddyScreenName)}`,
+    { method: "PUT" },
+  );
+}
+
+export function removeBuddy(
+  screenName: string,
+  groupId: number,
+  buddyScreenName: string,
+): Promise<void> {
+  return apiFetch(
+    `/feedbag/${encodeURIComponent(screenName)}/group/${groupId}/buddy/${encodeURIComponent(buddyScreenName)}`,
+    { method: "DELETE" },
+  );
+}
+
+export function listLinkedAccounts(screenName: string): Promise<LinkedAccountsResponse> {
+  return apiFetch<LinkedAccountsResponse>(
+    `/user/${encodeURIComponent(screenName)}/linked-account`,
+  );
+}
+
+export function addLinkedAccount(
+  screenName: string,
+  linkedScreenName: string,
+): Promise<void> {
+  return apiFetch(`/user/${encodeURIComponent(screenName)}/linked-account`, {
+    method: "POST",
+    body: JSON.stringify({ linked_screen_name: linkedScreenName }),
+  });
+}
+
+export function removeLinkedAccount(
+  screenName: string,
+  linkedScreenName: string,
+): Promise<void> {
+  return apiFetch(
+    `/user/${encodeURIComponent(screenName)}/linked-account/${encodeURIComponent(linkedScreenName)}`,
+    { method: "DELETE" },
+  );
 }

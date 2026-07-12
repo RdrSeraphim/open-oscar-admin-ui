@@ -60,3 +60,18 @@ export interface VersionInfo {
 export interface MessageResponse {
   message: string;
 }
+
+export interface Buddy {
+  name: string;
+  item_id: number;
+}
+
+export interface BuddyGroup {
+  group_id: number;
+  group_name: string;
+  buddies: Buddy[];
+}
+
+export interface LinkedAccountsResponse {
+  linked_accounts: string[];
+}
