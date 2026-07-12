@@ -1,21 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f4f6fb;
   --foreground: #171717;
+  --surface: #ffffff;
+  --border: #d7deea;
+
+  --aim-blue: #003399;
+  --aim-blue-dark: #001f5c;
+  --aim-blue-light: #2f5fd6;
+  --aim-gold: #ffcc00;
+  --aim-gold-dark: #e0ac00;
+  --aim-danger: #cc3333;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-aim-blue: var(--aim-blue);
+  --color-aim-blue-dark: var(--aim-blue-dark);
+  --color-aim-blue-light: var(--aim-blue-light);
+  --color-aim-gold: var(--aim-gold);
+  --color-aim-gold-dark: var(--aim-gold-dark);
+  --color-aim-danger: var(--aim-danger);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1120;
+    --foreground: #e8ecf5;
+    --surface: #111a2e;
+    --border: #24304a;
+
+    --aim-blue: #3d6bd6;
+    --aim-blue-dark: #001f5c;
+    --aim-blue-light: #6f92e8;
+    --aim-gold: #ffcc00;
+    --aim-gold-dark: #e0ac00;
+    --aim-danger: #ff6b6b;
   }
 }
 
