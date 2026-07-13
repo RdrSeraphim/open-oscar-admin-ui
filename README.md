@@ -23,7 +23,7 @@ There's no authentication — this is meant to run on your local network, next t
 1. Have an open-oscar-server instance running somewhere reachable.
 2. Install dependencies:
    ```bash
-   npm install
+   yarn install
    ```
 3. Point aimctl at your server:
    ```bash
@@ -32,9 +32,9 @@ There's no authentication — this is meant to run on your local network, next t
    ```
 4. Run it:
    ```bash
-   npm run dev      # development, http://localhost:3000 (or next available port)
+   yarn dev      # development, http://localhost:3000 (or next available port)
    # or
-   npm run build && npm run start   # production
+   yarn build && yarn start   # production
    ```
 
 ## How it talks to the server
