@@ -204,3 +204,14 @@ export function deletePublicRooms(names: string[]): Promise<void> {
 export function listPrivateRooms(): Promise<PrivateRoom[]> {
   return apiFetch<PrivateRoom[]>("/chat/room/private");
 }
+
+export function sendInstantMessage(
+  from: string,
+  to: string,
+  text: string,
+): Promise<void> {
+  return apiFetch("/instant-message", {
+    method: "POST",
+    body: JSON.stringify({ from, to, text }),
+  });
+}
