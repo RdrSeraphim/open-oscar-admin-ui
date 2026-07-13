@@ -22,7 +22,7 @@ export function Sidebar() {
     <nav className="flex h-full w-full flex-col border-r border-border bg-surface">
       <div className="bg-gradient-to-r from-aim-blue-dark to-aim-blue px-4 py-5">
         <p className="text-lg font-extrabold tracking-tight text-aim-gold">
-          aimctl
+          Open Oscar Admin
         </p>
         <p className="text-xs text-white/70">open-oscar-server admin</p>
       </div>

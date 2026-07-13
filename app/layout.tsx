@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "aimctl — open-oscar-server admin",
+  title: "Open Oscar Admin — open-oscar-server admin",
   description: "Admin UI for managing an open-oscar-server instance.",
 };
 
