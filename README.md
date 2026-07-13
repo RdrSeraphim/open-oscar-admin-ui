@@ -1,5 +1,7 @@
 # aimctl
 
+![aimctl dashboard](docs/screenshot.png)
+
 A local admin UI for [open-oscar-server](https://github.com/mk6i/open-oscar-server), an AIM/ICQ-compatible chat server. Built with Next.js 16, React 19, and Tailwind v4.
 
 There's no authentication — this is meant to run on your local network, next to the server it manages, not exposed to the internet.
