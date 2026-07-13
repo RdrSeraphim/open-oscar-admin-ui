@@ -123,3 +123,92 @@ export interface WebAPIKey {
 export interface CreatedWebAPIKey extends WebAPIKey {
   dev_key: string;
 }
+
+export interface IcqBasicInfo {
+  nickname: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  city: string;
+  state: string;
+  phone: string;
+  fax: string;
+  address: string;
+  cell_phone: string;
+  zip: string;
+  country_code: number;
+  gmt_offset: number;
+  publish_email: boolean;
+  origin_city: string;
+  origin_state: string;
+  origin_country_code: number;
+}
+
+export interface IcqMoreInfo {
+  gender: number;
+  homepage: string;
+  birth_year: number;
+  birth_month: number;
+  birth_day: number;
+  lang1: number;
+  lang2: number;
+  lang3: number;
+}
+
+export interface IcqWorkInfo {
+  company: string;
+  department: string;
+  position: string;
+  occupation_code: number;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country_code: number;
+  phone: string;
+  fax: string;
+  web_page: string;
+}
+
+export interface IcqInterests {
+  code1: number;
+  keyword1: string;
+  code2: number;
+  keyword2: string;
+  code3: number;
+  keyword3: string;
+  code4: number;
+  keyword4: string;
+}
+
+export interface IcqAffiliations {
+  past_code1: number;
+  past_keyword1: string;
+  past_code2: number;
+  past_keyword2: string;
+  past_code3: number;
+  past_keyword3: string;
+  current_code1: number;
+  current_keyword1: string;
+  current_code2: number;
+  current_keyword2: string;
+  current_code3: number;
+  current_keyword3: string;
+}
+
+export interface IcqPermissions {
+  auth_required: boolean;
+  web_aware: boolean;
+  allow_spam: boolean;
+}
+
+export interface IcqProfile {
+  uin: number;
+  basic_info: IcqBasicInfo;
+  more_info: IcqMoreInfo;
+  work_info: IcqWorkInfo;
+  notes: string;
+  interests: IcqInterests;
+  affiliations: IcqAffiliations;
+  permissions: IcqPermissions;
+}

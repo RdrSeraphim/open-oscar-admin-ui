@@ -4,6 +4,7 @@ import type {
   BuddyGroup,
   Category,
   CreatedWebAPIKey,
+  IcqProfile,
   Keyword,
   LinkedAccountsResponse,
   PrivateRoom,
@@ -316,5 +317,19 @@ export function updateApiKey(
 export function deleteApiKey(devId: string): Promise<void> {
   return apiFetch(`/admin/webapi/keys/${encodeURIComponent(devId)}`, {
     method: "DELETE",
+  });
+}
+
+export function getICQProfile(screenName: string): Promise<IcqProfile> {
+  return apiFetch<IcqProfile>(`/user/${encodeURIComponent(screenName)}/icq`);
+}
+
+export function updateICQProfile(
+  screenName: string,
+  profile: IcqProfile,
+): Promise<void> {
+  return apiFetch(`/user/${encodeURIComponent(screenName)}/icq`, {
+    method: "PUT",
+    body: JSON.stringify(profile),
   });
 }
