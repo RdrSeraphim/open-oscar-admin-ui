@@ -44,7 +44,18 @@ async function apiFetch<T>(
     return undefined as T;
   }
 
-  return (await res.json()) as T;
+  // Some success responses (e.g. POST /user, POST /chat/room/public) return
+  // a plain-text confirmation message instead of JSON. Fall back to
+  // undefined rather than throwing on a body that isn't actually JSON.
+  const text = await res.text();
+  if (!text) {
+    return undefined as T;
+  }
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return undefined as T;
+  }
 }
 
 export function iconUrl(screenName: string): string {
