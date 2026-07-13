@@ -32,7 +32,9 @@ export default function IcqProfilePage({
       {loading && <p className="text-sm text-foreground/70">Loading ICQ profile…</p>}
       {error && <p className="text-sm text-aim-danger">{error}</p>}
 
-      {profile && <IcqProfileForm screenName={screenname} profile={profile} />}
+      {profile && (
+        <IcqProfileForm key={screenname} screenName={screenname} profile={profile} />
+      )}
     </div>
   );
 }
