@@ -116,8 +116,8 @@ export interface WebAPIKey {
   last_used: string | null;
   is_active: boolean;
   rate_limit: number;
-  allowed_origins: string[];
-  capabilities: string[];
+  allowed_origins?: string[];
+  capabilities?: string[];
 }
 
 export interface CreatedWebAPIKey extends WebAPIKey {
