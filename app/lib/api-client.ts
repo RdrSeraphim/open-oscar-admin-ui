@@ -1,5 +1,6 @@
 import type {
   Account,
+  BartAsset,
   BuddyGroup,
   Category,
   Keyword,
@@ -248,6 +249,32 @@ export function createKeyword(categoryId: number, name: string): Promise<Keyword
 
 export function deleteKeyword(id: number): Promise<void> {
   return apiFetch(`/directory/keyword/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export function bartAssetUrl(hash: string): string {
+  return `/api/bart/${encodeURIComponent(hash)}`;
+}
+
+export function listBartAssets(type: number): Promise<BartAsset[]> {
+  return apiFetch<BartAsset[]>(`/bart?type=${type}`);
+}
+
+export function uploadBartAsset(
+  hash: string,
+  type: number,
+  data: Blob,
+): Promise<BartAsset> {
+  return apiFetch<BartAsset>(`/bart/${encodeURIComponent(hash)}?type=${type}`, {
+    method: "POST",
+    body: data,
+    headers: { "Content-Type": "application/octet-stream" },
+  });
+}
+
+export function deleteBartAsset(hash: string): Promise<void> {
+  return apiFetch(`/bart/${encodeURIComponent(hash)}`, {
     method: "DELETE",
   });
 }

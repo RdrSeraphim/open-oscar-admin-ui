@@ -103,3 +103,8 @@ export interface Keyword {
   id: number;
   name: string;
 }
+
+export interface BartAsset {
+  hash: string;
+  type: number;
+}
