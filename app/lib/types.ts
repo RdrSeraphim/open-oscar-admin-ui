@@ -108,3 +108,18 @@ export interface BartAsset {
   hash: string;
   type: number;
 }
+
+export interface WebAPIKey {
+  dev_id: string;
+  app_name: string;
+  created_at: string;
+  last_used: string | null;
+  is_active: boolean;
+  rate_limit: number;
+  allowed_origins: string[];
+  capabilities: string[];
+}
+
+export interface CreatedWebAPIKey extends WebAPIKey {
+  dev_key: string;
+}

@@ -3,6 +3,7 @@ import type {
   BartAsset,
   BuddyGroup,
   Category,
+  CreatedWebAPIKey,
   Keyword,
   LinkedAccountsResponse,
   PrivateRoom,
@@ -10,6 +11,7 @@ import type {
   SessionsResponse,
   User,
   VersionInfo,
+  WebAPIKey,
 } from "./types";
 
 class ApiError extends Error {}
@@ -275,6 +277,44 @@ export function uploadBartAsset(
 
 export function deleteBartAsset(hash: string): Promise<void> {
   return apiFetch(`/bart/${encodeURIComponent(hash)}`, {
+    method: "DELETE",
+  });
+}
+
+export function listApiKeys(): Promise<WebAPIKey[]> {
+  return apiFetch<WebAPIKey[]>("/admin/webapi/keys");
+}
+
+export function createApiKey(patch: {
+  app_name: string;
+  allowed_origins?: string[];
+  rate_limit?: number;
+  capabilities?: string[];
+}): Promise<CreatedWebAPIKey> {
+  return apiFetch<CreatedWebAPIKey>("/admin/webapi/keys", {
+    method: "POST",
+    body: JSON.stringify(patch),
+  });
+}
+
+export function updateApiKey(
+  devId: string,
+  patch: {
+    app_name?: string;
+    is_active?: boolean;
+    rate_limit?: number;
+    allowed_origins?: string[];
+    capabilities?: string[];
+  },
+): Promise<WebAPIKey> {
+  return apiFetch<WebAPIKey>(`/admin/webapi/keys/${encodeURIComponent(devId)}`, {
+    method: "PUT",
+    body: JSON.stringify(patch),
+  });
+}
+
+export function deleteApiKey(devId: string): Promise<void> {
+  return apiFetch(`/admin/webapi/keys/${encodeURIComponent(devId)}`, {
     method: "DELETE",
   });
 }
