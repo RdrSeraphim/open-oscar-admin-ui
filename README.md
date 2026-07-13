@@ -43,7 +43,7 @@ There's no authentication — this is meant to run on your local network, next t
 
 `docs/api.yml` is the source of truth this UI is built against, kept in sync by hand with the server's actual admin API (including a few endpoints — like the ICQ profile and the full BART type enum — that the server implements but doesn't document itself). If you're adding a feature, check there first.
 
-Two things currently in `docs/api.yml` that this UI calls but that older `open-oscar-server` builds don't implement yet: adding a new feedbag group (`PUT /feedbag/{screen_name}/group/{group_name}`), and the entire Linked Accounts endpoint set. Both fail with a plain 404 on a server predating those handlers — that's the server, not a bug here.
+Two things currently in `docs/api.yml` that this UI calls but that older `open-oscar-server` builds don't implement yet: adding a new feedbag group (`PUT /feedbag/{screen_name}/group/{group_name}`), and the entire Linked Accounts endpoint set. On a server predating those handlers, aimctl detects the route-not-found response and shows "not supported on this server version" instead of a raw error — that's the server lagging behind, not a bug here.
 
 ## Project structure
 
