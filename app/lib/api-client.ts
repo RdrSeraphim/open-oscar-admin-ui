@@ -1,6 +1,8 @@
 import type {
   Account,
   BuddyGroup,
+  Category,
+  Keyword,
   LinkedAccountsResponse,
   PrivateRoom,
   PublicRoom,
@@ -213,5 +215,39 @@ export function sendInstantMessage(
   return apiFetch("/instant-message", {
     method: "POST",
     body: JSON.stringify({ from, to, text }),
+  });
+}
+
+export function listCategories(): Promise<Category[]> {
+  return apiFetch<Category[]>("/directory/category");
+}
+
+export function createCategory(name: string): Promise<Category> {
+  return apiFetch<Category>("/directory/category", {
+    method: "POST",
+    body: JSON.stringify({ name }),
+  });
+}
+
+export function deleteCategory(id: number): Promise<void> {
+  return apiFetch(`/directory/category/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export function listKeywords(categoryId: number): Promise<Keyword[]> {
+  return apiFetch<Keyword[]>(`/directory/category/${categoryId}/keyword`);
+}
+
+export function createKeyword(categoryId: number, name: string): Promise<Keyword> {
+  return apiFetch<Keyword>("/directory/keyword", {
+    method: "POST",
+    body: JSON.stringify({ category_id: categoryId, name }),
+  });
+}
+
+export function deleteKeyword(id: number): Promise<void> {
+  return apiFetch(`/directory/keyword/${id}`, {
+    method: "DELETE",
   });
 }

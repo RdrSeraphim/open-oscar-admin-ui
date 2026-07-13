@@ -93,3 +93,13 @@ export interface PrivateRoom {
   creator_id: string;
   participants: RoomParticipant[];
 }
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Keyword {
+  id: number;
+  name: string;
+}
