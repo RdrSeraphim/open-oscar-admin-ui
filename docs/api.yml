@@ -197,6 +197,85 @@ paths:
         '404':
           description: User not found, or user has no buddy icon
 
+  /user/{screenname}/icq:
+    get:
+      summary: Get ICQ profile for a screen name
+      description: Retrieve the full ICQ profile for a specific ICQ account.
+      tags: [ ICQ Profile ]
+      parameters:
+        - in: path
+          name: screenname
+          schema:
+            type: string
+          description: User's ICQ UIN.
+          required: true
+      responses:
+        '200':
+          description: Successful response containing the ICQ profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IcqProfile'
+        '400':
+          description: Bad request. The user exists but is not an ICQ account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+    put:
+      summary: Update ICQ profile for a screen name
+      description: |
+        Replace the full ICQ profile for a specific ICQ account. This is a
+        whole-object replace, not a partial patch — all sections must be
+        included in the request body.
+      tags: [ ICQ Profile ]
+      parameters:
+        - in: path
+          name: screenname
+          schema:
+            type: string
+          description: User's ICQ UIN.
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IcqProfile'
+      responses:
+        '204':
+          description: ICQ profile updated successfully.
+        '400':
+          description: Bad request. Invalid input data, or the user is not an ICQ account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
   /session:
     get:
       summary: Get active sessions
@@ -1637,3 +1716,224 @@ components:
             type: string
           description: List of enabled features/endpoints. Empty list allows all capabilities.
           example: [ "aim.session", "presence.get" ]
+
+    IcqProfile:
+      type: object
+      properties:
+        uin:
+          type: integer
+          description: The user's ICQ UIN (read-only).
+        basic_info:
+          $ref: '#/components/schemas/IcqBasicInfo'
+        more_info:
+          $ref: '#/components/schemas/IcqMoreInfo'
+        work_info:
+          $ref: '#/components/schemas/IcqWorkInfo'
+        notes:
+          type: string
+          description: Free-text notes (max 450 characters).
+        interests:
+          $ref: '#/components/schemas/IcqInterests'
+        affiliations:
+          $ref: '#/components/schemas/IcqAffiliations'
+        permissions:
+          $ref: '#/components/schemas/IcqPermissions'
+
+    IcqBasicInfo:
+      type: object
+      properties:
+        nickname:
+          type: string
+          description: Max 20 characters.
+        first_name:
+          type: string
+          description: Max 64 characters.
+        last_name:
+          type: string
+          description: Max 64 characters.
+        email:
+          type: string
+          description: Max 64 characters.
+        city:
+          type: string
+          description: Max 64 characters.
+        state:
+          type: string
+          description: Max 64 characters.
+        phone:
+          type: string
+          description: Max 30 characters.
+        fax:
+          type: string
+          description: Max 30 characters.
+        address:
+          type: string
+          description: Max 64 characters.
+        cell_phone:
+          type: string
+          description: Max 30 characters.
+        zip:
+          type: string
+          description: Max 12 characters.
+        country_code:
+          type: integer
+          description: ICQ country code.
+        gmt_offset:
+          type: integer
+          description: GMT offset.
+        publish_email:
+          type: boolean
+        origin_city:
+          type: string
+          description: Max 64 characters.
+        origin_state:
+          type: string
+          description: Max 64 characters.
+        origin_country_code:
+          type: integer
+          description: ICQ country code for the user's original home.
+
+    IcqMoreInfo:
+      type: object
+      properties:
+        gender:
+          type: integer
+          description: "0 = unspecified, 1 = female, 2 = male."
+        homepage:
+          type: string
+          description: Max 127 characters.
+        birth_year:
+          type: integer
+        birth_month:
+          type: integer
+          description: 0-12.
+        birth_day:
+          type: integer
+          description: 0-31.
+        lang1:
+          type: integer
+          description: ICQ language code.
+        lang2:
+          type: integer
+          description: ICQ language code.
+        lang3:
+          type: integer
+          description: ICQ language code.
+
+    IcqWorkInfo:
+      type: object
+      properties:
+        company:
+          type: string
+          description: Max 64 characters.
+        department:
+          type: string
+          description: Max 64 characters.
+        position:
+          type: string
+          description: Max 64 characters.
+        occupation_code:
+          type: integer
+          description: ICQ occupation code.
+        address:
+          type: string
+          description: Max 64 characters.
+        city:
+          type: string
+          description: Max 64 characters.
+        state:
+          type: string
+          description: Max 64 characters.
+        zip:
+          type: string
+          description: Max 12 characters.
+        country_code:
+          type: integer
+          description: ICQ country code.
+        phone:
+          type: string
+          description: Max 30 characters.
+        fax:
+          type: string
+          description: Max 30 characters.
+        web_page:
+          type: string
+          description: Max 127 characters.
+
+    IcqInterests:
+      type: object
+      properties:
+        code1:
+          type: integer
+          description: ICQ interest category code.
+        keyword1:
+          type: string
+          description: Max 64 characters.
+        code2:
+          type: integer
+          description: ICQ interest category code.
+        keyword2:
+          type: string
+          description: Max 64 characters.
+        code3:
+          type: integer
+          description: ICQ interest category code.
+        keyword3:
+          type: string
+          description: Max 64 characters.
+        code4:
+          type: integer
+          description: ICQ interest category code.
+        keyword4:
+          type: string
+          description: Max 64 characters.
+
+    IcqAffiliations:
+      type: object
+      properties:
+        past_code1:
+          type: integer
+          description: ICQ affiliation category code.
+        past_keyword1:
+          type: string
+          description: Max 64 characters.
+        past_code2:
+          type: integer
+          description: ICQ affiliation category code.
+        past_keyword2:
+          type: string
+          description: Max 64 characters.
+        past_code3:
+          type: integer
+          description: ICQ affiliation category code.
+        past_keyword3:
+          type: string
+          description: Max 64 characters.
+        current_code1:
+          type: integer
+          description: ICQ affiliation category code.
+        current_keyword1:
+          type: string
+          description: Max 64 characters.
+        current_code2:
+          type: integer
+          description: ICQ affiliation category code.
+        current_keyword2:
+          type: string
+          description: Max 64 characters.
+        current_code3:
+          type: integer
+          description: ICQ affiliation category code.
+        current_keyword3:
+          type: string
+          description: Max 64 characters.
+
+    IcqPermissions:
+      type: object
+      properties:
+        auth_required:
+          type: boolean
+        web_aware:
+          type: boolean
+        allow_spam:
+          type: boolean
