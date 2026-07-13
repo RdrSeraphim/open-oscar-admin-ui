@@ -20,7 +20,7 @@ class ApiError extends Error {}
 async function apiFetch<T>(
   path: string,
   init?: RequestInit,
-  opts?: { notFoundValue?: T },
+  opts?: { notFoundValue?: T; unsupportedMessage?: string },
 ): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
@@ -42,7 +42,14 @@ async function apiFetch<T>(
         const body = JSON.parse(text);
         message = body?.message || text;
       } catch {
-        message = text;
+        // A non-JSON error body on a 404 is the server's own generic
+        // "no route registered" page (Go's http.NotFound default), not an
+        // app-level "not found" — every app-level error is real JSON. That
+        // means the endpoint genuinely doesn't exist on this server build.
+        message =
+          res.status === 404 && opts?.unsupportedMessage
+            ? opts.unsupportedMessage
+            : text;
       }
     }
     throw new ApiError(message);
@@ -138,6 +145,7 @@ export function addGroup(
   return apiFetch(
     `/feedbag/${encodeURIComponent(screenName)}/group/${encodeURIComponent(groupName)}`,
     { method: "PUT" },
+    { unsupportedMessage: "Adding a group isn't supported on this server version." },
   );
 }
 
@@ -163,9 +171,14 @@ export function removeBuddy(
   );
 }
 
+const LINKED_ACCOUNTS_UNSUPPORTED_MESSAGE =
+  "Linked accounts aren't supported on this server version.";
+
 export function listLinkedAccounts(screenName: string): Promise<LinkedAccountsResponse> {
   return apiFetch<LinkedAccountsResponse>(
     `/user/${encodeURIComponent(screenName)}/linked-account`,
+    undefined,
+    { unsupportedMessage: LINKED_ACCOUNTS_UNSUPPORTED_MESSAGE },
   );
 }
 
@@ -173,10 +186,14 @@ export function addLinkedAccount(
   screenName: string,
   linkedScreenName: string,
 ): Promise<void> {
-  return apiFetch(`/user/${encodeURIComponent(screenName)}/linked-account`, {
-    method: "POST",
-    body: JSON.stringify({ linked_screen_name: linkedScreenName }),
-  });
+  return apiFetch(
+    `/user/${encodeURIComponent(screenName)}/linked-account`,
+    {
+      method: "POST",
+      body: JSON.stringify({ linked_screen_name: linkedScreenName }),
+    },
+    { unsupportedMessage: LINKED_ACCOUNTS_UNSUPPORTED_MESSAGE },
+  );
 }
 
 export function removeLinkedAccount(
@@ -186,6 +203,7 @@ export function removeLinkedAccount(
   return apiFetch(
     `/user/${encodeURIComponent(screenName)}/linked-account/${encodeURIComponent(linkedScreenName)}`,
     { method: "DELETE" },
+    { unsupportedMessage: LINKED_ACCOUNTS_UNSUPPORTED_MESSAGE },
   );
 }
 
