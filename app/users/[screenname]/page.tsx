@@ -55,6 +55,11 @@ export default function UserDetailPage({
             <Link href={`/feedbag/${encodeURIComponent(screenname)}`}>
               <Button variant="secondary">Buddy list</Button>
             </Link>
+            {account?.is_icq && (
+              <Link href={`/users/${encodeURIComponent(screenname)}/icq`}>
+                <Button variant="secondary">ICQ Profile</Button>
+              </Link>
+            )}
             <Button variant="danger" onClick={() => setDeleteOpen(true)}>
               Delete user
             </Button>
