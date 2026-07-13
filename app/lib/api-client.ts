@@ -2,6 +2,8 @@ import type {
   Account,
   BuddyGroup,
   LinkedAccountsResponse,
+  PrivateRoom,
+  PublicRoom,
   SessionsResponse,
   User,
   VersionInfo,
@@ -179,4 +181,26 @@ export function removeLinkedAccount(
     `/user/${encodeURIComponent(screenName)}/linked-account/${encodeURIComponent(linkedScreenName)}`,
     { method: "DELETE" },
   );
+}
+
+export function listPublicRooms(): Promise<PublicRoom[]> {
+  return apiFetch<PublicRoom[]>("/chat/room/public");
+}
+
+export function createPublicRoom(name: string): Promise<void> {
+  return apiFetch("/chat/room/public", {
+    method: "POST",
+    body: JSON.stringify({ name }),
+  });
+}
+
+export function deletePublicRooms(names: string[]): Promise<void> {
+  return apiFetch("/chat/room/public", {
+    method: "DELETE",
+    body: JSON.stringify({ names }),
+  });
+}
+
+export function listPrivateRooms(): Promise<PrivateRoom[]> {
+  return apiFetch<PrivateRoom[]>("/chat/room/private");
 }

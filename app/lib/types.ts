@@ -75,3 +75,21 @@ export interface BuddyGroup {
 export interface LinkedAccountsResponse {
   linked_accounts: string[];
 }
+
+export interface RoomParticipant {
+  id: string;
+  screen_name: string;
+}
+
+export interface PublicRoom {
+  name: string;
+  create_time: string;
+  participants: RoomParticipant[];
+}
+
+export interface PrivateRoom {
+  name: string;
+  create_time: string;
+  creator_id: string;
+  participants: RoomParticipant[];
+}
