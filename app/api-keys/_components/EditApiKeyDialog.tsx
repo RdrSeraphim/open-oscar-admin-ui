@@ -26,8 +26,10 @@ export function EditApiKeyDialog({
   const [appName, setAppName] = useState(apiKey.app_name);
   const [isActive, setIsActive] = useState(apiKey.is_active);
   const [rateLimit, setRateLimit] = useState(String(apiKey.rate_limit));
-  const [allowedOrigins, setAllowedOrigins] = useState(apiKey.allowed_origins.join(", "));
-  const [capabilities, setCapabilities] = useState(apiKey.capabilities.join(", "));
+  const [allowedOrigins, setAllowedOrigins] = useState(
+    (apiKey.allowed_origins ?? []).join(", "),
+  );
+  const [capabilities, setCapabilities] = useState((apiKey.capabilities ?? []).join(", "));
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
