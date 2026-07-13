@@ -52,6 +52,9 @@ export default function UserDetailPage({
             <Link href="/users">
               <Button variant="secondary">Back to users</Button>
             </Link>
+            <Link href={`/feedbag/${encodeURIComponent(screenname)}`}>
+              <Button variant="secondary">Buddy list</Button>
+            </Link>
             <Button variant="danger" onClick={() => setDeleteOpen(true)}>
               Delete user
             </Button>
