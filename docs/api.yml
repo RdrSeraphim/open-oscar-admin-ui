@@ -1653,9 +1653,11 @@ components:
 
     BARTType:
       type: integer
-      enum: [ 0, 1, 2, 3, 4, 5, 6, 12, 13, 15, 96, 129, 131, 136, 137, 1024, 1026, 1027, 1028 ]
+      enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 15, 96, 128, 129, 130, 131, 132, 133, 134, 136, 137, 256, 257, 258, 1024, 1026, 1027, 1028 ]
       description: |
-        BART (Buddy ART) type identifier. Valid type IDs and their corresponding names:
+        BART (Buddy ART) type identifier. Valid type IDs and their corresponding names
+        (cross-checked against the BARTTypes* constants in the open-oscar-server source,
+        wire/snacs.go):
         - 0: buddy_icon_small (GIF/JPG/BMP, <= 32 pixels and 2k)
         - 1: buddy_icon (GIF/JPG/BMP, <= 64 pixels and 7k)
         - 2: status_str (StringTLV format; DATA flag is always set)
@@ -1663,14 +1665,26 @@ components:
         - 4: rich_text (byte array of rich text codes; DATA flag is always set)
         - 5: superbuddy_icon (XML)
         - 6: radio_station (Opaque struct; DATA flag is always set)
+        - 7: super_icon_trigger
+        - 9: status_text_link
+        - 11: location
         - 12: buddy_icon_big (SWF)
         - 13: status_str_tod (Time when the status string is set)
         - 15: current_av_track (XML file; Data flag should not be set)
         - 96: depart_sound (WAV/MP3/MID, <= 10K)
+        - 128: im_background
         - 129: im_chrome (GIF/JPG/BMP wallpaper)
+        - 130: im_skin
         - 131: im_sound (WAV/MP3, <= 10K)
-        - 136: im_chrome_xml (XML)
+        - 132: badge
+        - 133: badge_url
+        - 134: im_initial_sound
+        - 136: flash_wallpaper (SWF). Corrected from an earlier "im_chrome_xml (XML)"
+          label, which didn't match the source's BARTTypesFlashWallpaper constant.
         - 137: im_chrome_immers (Immersive Expressions)
+        - 256: buddylist_background
+        - 257: buddylist_image
+        - 258: buddylist_skin
         - 1024: emoticon_set (Set of default Emoticons)
         - 1026: encr_cert_chain (Cert chain for encryption certs)
         - 1027: sign_cert_chain (Cert chain for signing certs)
