@@ -101,17 +101,6 @@ export default function UserDetailPage({
             </div>
           </div>
 
-          <div className="rounded-md border border-border bg-surface p-4">
-            <h2 className="mb-2 text-sm font-semibold">Profile</h2>
-            {account.profile ? (
-              <pre className="max-h-48 overflow-auto rounded bg-background p-2 text-xs whitespace-pre-wrap">
-                {account.profile}
-              </pre>
-            ) : (
-              <p className="text-sm text-foreground/50">No profile set.</p>
-            )}
-          </div>
-
           <div className="flex flex-col gap-4 rounded-md border border-border bg-surface p-4">
             <h2 className="text-sm font-semibold">Account controls</h2>
 
