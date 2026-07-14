@@ -92,7 +92,15 @@ export function UploadAssetDialog({
         </label>
         {error && <p className="text-sm text-aim-danger">{error}</p>}
         <div className="mt-2 flex justify-end gap-2">
-          <Button type="button" variant="secondary" onClick={onClose} disabled={pending}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              reset();
+              onClose();
+            }}
+            disabled={pending}
+          >
             Cancel
           </Button>
           <Button type="submit" variant="primary" disabled={pending || !file}>
