@@ -37,6 +37,42 @@ There's no authentication — this is meant to run on your local network, next t
    yarn build && yarn start   # production
    ```
 
+## Docker Setup
+
+### Command Line
+
+1. Set up the configuration:
+   ```bash
+   cp .env.local.example .env
+   # edit AIMCTL_API_BASE_URL if your server isn't on localhost:8080
+   ```
+2. Run this command, subtituting where relevant:
+   ```bash
+   docker run -d \
+   --name=open-oscar-admin-ui \
+   -p 3000:3000 \ # e.g. if you want to access with port 80, use 80:3030
+   --restart unless-stopped \
+   ghcr.io/geoffoliver/open-oscar-admin-ui:latest
+   ```
+
+### Docker Compose
+
+1. Set up your configuration, like the command line's first step or concatenate the example into your existing `.env`.
+2. Add the following to your `{docker-}compose.yml`, removing `services:` if you have others alongside it:
+   ```yaml
+   services:
+     open-oscar-admin-ui:
+       image: ghcr.io/geoffoliver/open-oscar-admin-ui:latest
+       container_name: open-oscar-admin-ui
+       ports:
+         - 3000:3000
+       restart: unless-stopped
+   ```
+3. Launch the service:
+   ```bash
+   docker compose up -d
+   ```
+
 ## How it talks to the server
 
 `open-oscar-server`'s admin API generally won't have CORS configured for a browser origin, so the browser never calls it directly. A catch-all route handler at `app/api/[...path]/route.ts` proxies every request server-to-server — the browser only ever talks to the app's own origin. `AIMCTL_API_BASE_URL` is a server-only environment variable; it's never sent to the client.
