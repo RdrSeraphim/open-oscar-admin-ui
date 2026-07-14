@@ -25,6 +25,19 @@ export function useApiResource<T>(fetcher: () => Promise<T>): ApiResource<T> {
     error: null,
   });
 
+  // If the fetcher's identity changes (e.g. a route param it closes over),
+  // reset synchronously during render rather than in an effect, so the
+  // previous fetcher's stale data never renders alongside the new fetch.
+  // This is React's documented "adjust state during render" pattern
+  // (react.dev, "You Might Not Need an Effect"); it uses a second piece of
+  // state rather than a ref because mutating a ref during render is itself
+  // disallowed (react-hooks/refs).
+  const [prevFetcher, setPrevFetcher] = useState(() => fetcher);
+  if (prevFetcher !== fetcher) {
+    setPrevFetcher(() => fetcher);
+    setState({ data: null, loading: true, error: null });
+  }
+
   // Only ever settles state from an async callback, never synchronously,
   // so it's safe to invoke directly from the mount effect below.
   const load = useCallback(() => {
