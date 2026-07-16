@@ -50,7 +50,7 @@ There's no authentication — this is meant to run on your local network, next t
    ```bash
    docker run -d \
    --name=open-oscar-admin-ui \
-   -p 3000:3000 \ # e.g. if you want to access with port 80, use 80:3030
+   -p 3000:3000 \ # e.g. if you want to access with port 80, use 80:3000
    --restart unless-stopped \
    ghcr.io/geoffoliver/open-oscar-admin-ui:latest
    ```
